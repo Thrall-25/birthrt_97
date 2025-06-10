@@ -78,9 +78,9 @@ static SHORT sound_levels[] = {0, 13, 26, 38, 51, 64, 77, 90, 102, 115, 127};
 static SHORT plusmin[2];
 
 #ifdef _WINDOWS
-static SHORT screen_mode = iGDI;
+static SHORT screen_mode = iDDRAW;
 #else
-static SHORT screen_mode = 0;    // 0 - GDI or 1 - DDRAW
+static SHORT screen_mode = 0;    // Original value for DOS (effectively iGDI if it were used similarly)
 #endif
 
 SHORT sitecount[MAX_SITES] = {0};
