@@ -2424,10 +2424,14 @@ SHORT LoadFLC (CSTRPTR szFileName, BOOL fNoScale, BOOL fLockRes, BOOL fRotated, 
 
 	file = DiskOpen(szFileName);	/* try to open the file */
 	if (file == fERROR)								/* Resource not found. Print an error */
+	{
+		printf("RESMANAG ERROR: LoadPCX - Could not open file: %s\n", szFileName);
 		return (SHORT)fFILE_NOT_FOUND;			/* mark file as not found */
+	}
 
 	if (read(file, &cBytes, 4) == fERROR)			/* read the first four bytes */
 	{
+		printf("RESMANAG ERROR: LoadPCX - Failed to read PCX header: %s\n", szFileName);
 		DiskClose(file);
 #if defined (_DEBUG)
 		fatal_error("RESMANAG ERROR - data read failed %s\n",szFileName);
@@ -2454,6 +2458,7 @@ SHORT LoadFLC (CSTRPTR szFileName, BOOL fNoScale, BOOL fLockRes, BOOL fRotated, 
 
 	if (iBlk == fERROR)
 	{
+		printf("RESMANAG ERROR: LoadPCX - Failed to allocate %lu bytes for: %s\n", cbLargest, szFileName);
 		DiskClose(file);
 #if defined (_DEBUG)
 		fatal_error("RESMANAG ERROR - unable to allocate memory for the file, size: %ld\n",cBytes);
@@ -2464,6 +2469,7 @@ SHORT LoadFLC (CSTRPTR szFileName, BOOL fNoScale, BOOL fLockRes, BOOL fRotated, 
 	/* Read the data into the block */
 	if (read(file, BLKPTR(iBlk), cBytes) == fERROR)
 	{
+		printf("RESMANAG ERROR: LoadPCX - Failed to read PCX data (%lu bytes): %s\n", cBytes, szFileName);
 		DiskClose(file);
 		DisposBlock(iBlk);
 #if defined (_DEBUG)

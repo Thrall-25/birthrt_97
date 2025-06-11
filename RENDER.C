@@ -1883,6 +1883,15 @@ static LONG draw_wall(LONG seg, LONG side)
 			floor_z = (floor_z * wall_scale) / UNITARY_SCALE;
 		}
 		pTexture = ((PTR)BLKPTR((SHORT)textures[texture].t)) + sizeof(BITMHDR);
+        // ADDED CHECK for invalid texture pointer
+        if (pTexture == (PTR)sizeof(BITMHDR)) // This condition implies BLKPTR returned NULL
+        {
+#if defined(_DEBUG)
+            printf("RENDER WARNING: draw_upper_wall - Invalid pTexture for seg %ld, texture index %ld, handle %d\n",
+                   seg, texture, textures[texture].t);
+#endif
+            return NOT_DRAWN; // Prevent further processing with an invalid texture
+        }
 	}
 
 	/*project bottom of wall*/
@@ -2168,6 +2177,15 @@ static LONG draw_lower_wall(LONG seg, LONG side)
 			floor_z = (floor_z * wall_scale) / UNITARY_SCALE;
 		}
 		pTexture = ((PTR)BLKPTR((SHORT)textures[texture].t)) + sizeof(BITMHDR);
+        // ADDED CHECK for invalid texture pointer
+        if (pTexture == (PTR)sizeof(BITMHDR)) // This condition implies BLKPTR returned NULL
+        {
+#if defined(_DEBUG)
+            printf("RENDER WARNING: draw_lower_wall - Invalid pTexture for seg %ld, texture index %ld, handle %d\n",
+                   seg, texture, textures[texture].t);
+#endif
+            return NOT_DRAWN; // Prevent further processing with an invalid texture
+        }
 	}
 
 	// [d6-19-96 JPC] We are again treating the upper/lower pegging as
@@ -2399,6 +2417,15 @@ static LONG draw_upper_wall(LONG seg, LONG side)
 			floor_z = (floor_z * wall_scale) / UNITARY_SCALE;
 		}
 		pTexture = ((PTR)BLKPTR((SHORT)textures[texture].t)) + sizeof(BITMHDR);
+        // ADDED CHECK for invalid texture pointer
+        if (pTexture == (PTR)sizeof(BITMHDR)) // This condition implies BLKPTR returned NULL
+        {
+#if defined(_DEBUG)
+            printf("RENDER WARNING: draw_wall - Invalid pTexture for seg %ld, texture index %ld, handle %d\n",
+                   seg, texture, textures[texture].t);
+#endif
+            return NOT_DRAWN; // Prevent further processing with an invalid texture
+        }
 	}
 
 
